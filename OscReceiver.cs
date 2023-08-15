@@ -1,3 +1,21 @@
+/*
+    godotOscSharp
+    Copyright (C) 2023  Cassandra de la Cruz-Munoz
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    */
+
 using Godot;
 using System;
 using System.Net;
@@ -21,31 +39,21 @@ namespace godotOscSharp
         // The constructor that takes a port number
         public OscReceiver(int port)
         {
-            // Create a UDP client with the given port
             udpClient = new UdpClient(port);
-
-            // Create a thread for listening to incoming messages
             listenThread = new Thread(new ThreadStart(Listen));
-
-            // Set the running flag to true
             running = true;
-
-            // Start the thread
             listenThread.Start();
         }
 
         // A method that listens to incoming messages
         private void Listen()
         {
-            // While the receiver is running
             while (running)
             {
                 try
                 {
-                    // Receive data from any source
                     IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
                     byte[] data = udpClient.Receive(ref remoteEndPoint);
-                    // Parse the data to an OSC message
                     if (data[0] == 0x2f)
                     {
                         OscMessage message = OscMessage.Parse(data);
@@ -53,7 +61,6 @@ namespace godotOscSharp
                     }
                     else
                     {
-                        // GD.Print(string.Join(", ", data));
                         OscBundle bundle = OscBundle.Parse(data);
                         foreach (var message in bundle.Messages)
                         {
@@ -63,7 +70,6 @@ namespace godotOscSharp
                 }
                 catch (Exception e)
                 {
-                    // If an exception occurs, invoke the error received event with the exception message
                     ErrorReceived?.Invoke(this, new OscErrorReceivedEventArgs(e.Message));
                 }
             }
@@ -72,13 +78,8 @@ namespace godotOscSharp
         // A method that disposes the receiver and releases resources
         public void Dispose()
         {
-            // Set the running flag to false
             running = false;
-
-            // Close the UDP client
             udpClient.Close();
-
-            // Join the thread
             listenThread.Join();
         }
 
