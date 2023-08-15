@@ -34,3 +34,7 @@ receiver.ErrorReceived += (sender, e) =>
     GD.Print($"Error: {e.ErrorMessage}");
 };
 ```
+
+### License
+
+This program is made available with the AGPL-3-or-later license set.
