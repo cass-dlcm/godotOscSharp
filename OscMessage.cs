@@ -30,6 +30,11 @@ namespace godotOscSharp
 
         public List<OscArgument> Data { get; }
 
+        public OscMessage(Address address)
+        {
+            Address = address;
+        }
+
         public OscMessage(Address address, List<OscArgument> data)
         {
             Address = address;
