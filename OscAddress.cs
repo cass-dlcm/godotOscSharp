@@ -21,11 +21,11 @@ using System.Text.RegularExpressions;
 
 namespace godotOscSharp
 {
-    public class Address
+    public class OscAddress
     {
         public string Pattern { get; }
 
-        public Address(string pattern)
+        public OscAddress(string pattern)
         {
             if (string.IsNullOrEmpty(pattern))
             {
@@ -63,7 +63,7 @@ namespace godotOscSharp
             return result.ToArray();
         }
 
-        public static Address Parse(byte[] data, ref int index)
+        public static OscAddress Parse(byte[] data, ref int index)
         {
             var start = index;
             while (data[index] != 0)
@@ -74,7 +74,7 @@ namespace godotOscSharp
             index++;
             var padding = 4 - ((index - start) % 4);
             index += padding;
-            return new Address(pattern);
+            return new OscAddress(pattern);
         }
 
         public override string ToString()

@@ -28,10 +28,10 @@ namespace godotOscSharp
     public class OscReceiver : IDisposable
     {
         // The UDP client for receiving data
-        private UdpClient udpClient;
+        private readonly UdpClient udpClient;
 
         // The thread for listening to incoming messages
-        private Thread listenThread;
+        private readonly Thread listenThread;
 
         // The flag to indicate if the receiver is running
         private bool running;

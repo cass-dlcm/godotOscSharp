@@ -24,15 +24,15 @@ namespace godotOscSharp
 {
     public class OscSender : IDisposable
     {
-        private UdpClient udpClient;
+        private readonly UdpClient udpClient;
 
-        private IPAddress host;
+        private readonly IPAddress host;
 
-        private int port;
+        private readonly int port;
 
         public OscSender(IPAddress host, int port)
         {
-            udpClient = new UdpClient(0);
+            udpClient = new UdpClient(port);
             this.host = host;
             this.port = port;
         }

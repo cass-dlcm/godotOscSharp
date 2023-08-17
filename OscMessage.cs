@@ -26,16 +26,16 @@ namespace godotOscSharp
 {
     public class OscMessage
     {
-        public Address Address { get; }
+        public OscAddress Address { get; }
 
         public List<OscArgument> Data { get; }
 
-        public OscMessage(Address address)
+        public OscMessage(OscAddress address)
         {
             Address = address;
         }
 
-        public OscMessage(Address address, List<OscArgument> data)
+        public OscMessage(OscAddress address, List<OscArgument> data)
         {
             Address = address;
             Data = data;
@@ -44,7 +44,7 @@ namespace godotOscSharp
         public static OscMessage Parse(byte[] data)
         {
             var index = 0;
-            var address = Address.Parse(data, ref index);
+            var address = OscAddress.Parse(data, ref index);
             var start = index;
             while (data[index] != 0)
             {
